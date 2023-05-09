@@ -6,8 +6,8 @@ const pool = require('../connection');
 dotenv.config();
 process.env.TOKEN_SECRET;
 
-const generateAccessToken = (username, email) => {
-    return jwt.sign({username, email}, process.env.TOKEN_SECRET, {expiresIn: "30s"});
+const generateAccessToken = (email) => {
+    return jwt.sign(email, process.env.TOKEN_SECRET, {expiresIn: "30s"});
 }
 
 const getStudents = (req, res) => {
@@ -47,7 +47,9 @@ const login = async (req, res) => {
 
         if (!validPassword) return res.status(401).json({error: "Incorrect password"});
         
-        return res.status(200).json("Success");
+        // return res.status(200).json("Success");
+        const token = generateAccessToken({email});
+        return res.json(token);
     } catch (error) {
         throw error;
     }
