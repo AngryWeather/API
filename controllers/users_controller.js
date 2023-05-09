@@ -6,6 +6,10 @@ const pool = require('../connection');
 dotenv.config();
 process.env.TOKEN_SECRET;
 
+const generateAccessToken = (username, email) => {
+    return jwt.sign({username, email}, process.env.TOKEN_SECRET, {expiresIn: "30s"});
+}
+
 const getStudents = (req, res) => {
     pool.query("SELECT * FROM users", (error, results) => {
         if (error) throw error;
