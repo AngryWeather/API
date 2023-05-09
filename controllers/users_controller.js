@@ -1,6 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 const pool = require('../connection');
+
+dotenv.config();
+process.env.TOKEN_SECRET;
 
 const getStudents = (req, res) => {
     pool.query("SELECT * FROM users", (error, results) => {
