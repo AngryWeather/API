@@ -2,12 +2,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const pool = require('../connection');
+const { json } = require("express");
 
 dotenv.config();
 process.env.TOKEN_SECRET;
 
 const generateAccessToken = (email) => {
-    return jwt.sign(email, process.env.TOKEN_SECRET, {expiresIn: "30s"});
+    return jwt.sign(email, process.env.TOKEN_SECRET, {expiresIn: "120s"});
 }
 
 const getStudents = (req, res) => {
@@ -34,6 +35,23 @@ const addUser = async (req, res) => {
     } catch (error) {
         throw error;
     }
+}
+
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    console.log(token);
+
+    if (token == null) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
+        console.log(error);
+        if (error) return res.sendStatus(403);
+        
+        res.status(200).json({message: "success" + JSON.stringify(user)});
+
+        next();
+    })
 }
 
 const login = async (req, res) => {
@@ -68,4 +86,5 @@ module.exports = {
     getStudents,
     addUser,
     login,
+    authenticateToken,
 };
