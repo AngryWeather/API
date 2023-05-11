@@ -7,7 +7,7 @@ const { json } = require("express");
 dotenv.config();
 process.env.TOKEN_SECRET;
 
-const generateAccessToken = (email) => {
+const generateAccessToken = email => {
     return jwt.sign(email, process.env.TOKEN_SECRET, {expiresIn: "120s"});
 }
 
@@ -34,6 +34,11 @@ const getStudents = (req, res) => {
     });
 }
 
+const validateEmail = email => {
+    const regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    return email.match(regex) ? true : false;
+}
+
 const addUser = async (req, res) => {
     try {
         console.log("response!");
@@ -41,6 +46,8 @@ const addUser = async (req, res) => {
         let userBool = await userExists(req.body.username, req.body.email);
         if (userBool === true) {
             res.send("user exists");
+        } else if (!validateEmail(req.body.email)) {
+            res.status(400).json();
         } else {
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
             const newUser = await pool.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
