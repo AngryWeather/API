@@ -11,6 +11,22 @@ const generateAccessToken = (email) => {
     return jwt.sign(email, process.env.TOKEN_SECRET, {expiresIn: "120s"});
 }
 
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    console.log(token);
+
+    if (token == null) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
+        console.log(error);
+        if (error) return res.sendStatus(403);
+        
+        req.user = user;
+        next();
+    })
+}
+
 const getStudents = (req, res) => {
     pool.query("SELECT * FROM users", (error, results) => {
         if (error) throw error;
@@ -37,22 +53,7 @@ const addUser = async (req, res) => {
     }
 }
 
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-    console.log(token);
 
-    if (token == null) return res.sendStatus(401);
-
-    jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
-        console.log(error);
-        if (error) return res.sendStatus(403);
-        
-        res.status(200).json({message: "success" + JSON.stringify(user)});
-
-        next();
-    })
-}
 
 const login = async (req, res) => {
     try {
