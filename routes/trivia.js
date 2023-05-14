@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const categoriesController = require("../controllers/categories_controller")
+const categoriesController = require("../controllers/trivia_controller")
 
 router.get('/', categoriesController.getCategories);
 
