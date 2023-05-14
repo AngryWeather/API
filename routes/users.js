@@ -6,5 +6,6 @@ const categoriesController = require("../controllers/categories_controller")
 // router.get('/', controller.authenticateToken, controller.getStudents);
 router.post('/register', usersController.addUser);
 router.post('/login', usersController.login);
+router.get('/', categoriesController.getCategories);
 
 module.exports = router;
