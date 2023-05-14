@@ -1,6 +1,7 @@
-const getCategories = async () => {
+const getCategories = async (req, res) => {
     const response = await fetch("https://opentdb.com/api_category.php");
-    return await response.json();
+    const json = await response.json();
+    res.status(200).json(json);
 }
 
 module.exports = {
