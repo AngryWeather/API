@@ -84,9 +84,6 @@ const login = async (req, res) => {
 
 const userExists = async (username, email) => {
     const len = await pool.query("SELECT * FROM users WHERE (username = $1) OR (email = $2)", [username, email]);
-    console.log("LENGTH:");
-    console.log(len.rows.length);
-    console.log(len.rows.length > 0);
     return len.rows.length > 0;
 }
 
