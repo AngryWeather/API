@@ -9,7 +9,7 @@ const isNumOfQuestionsValid = numOfQuestions => {
     return (numOfQuestions > 0) && (numOfQuestions < 51);
 }
 
-const postTriviaData = async (req, res, next) => {
+const postTriviaData = (req, res, next) => {
     const {numOfQuestions} = req.body;
     
     if (!isNumOfQuestionsValid(numOfQuestions)) {
