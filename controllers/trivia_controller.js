@@ -10,7 +10,7 @@ const isNumOfQuestionsValid = numOfQuestions => {
 }
 
 const postTriviaData = async (req, res, next) => {
-    const {numOfQuestions, category, difficulty, type} = req.body;
+    const {numOfQuestions} = req.body;
     
     if (!isNumOfQuestionsValid(numOfQuestions)) {
         res.status(400).json({error: "Number of questions must be between 1 and 50 (both inclusive)"});
