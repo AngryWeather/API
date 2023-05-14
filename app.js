@@ -18,6 +18,6 @@ app.use(express.json());
 
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
-app.use('/categories', triviaRouter);
+app.use('/trivia', triviaRouter);
 
 module.exports = app;
