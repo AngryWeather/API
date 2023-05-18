@@ -16,7 +16,6 @@ const postTriviaData = (req, res, next) => {
         res.status(400).json({error: "Number of questions must be between 1 and 50 (both inclusive)"});
     }
 
-    // generateForm(numOfQuestions, category, difficulty, type);
     next();
 }
 
