@@ -23,9 +23,9 @@ const generateURL = async (req) => {
     let url = `https://opentdb.com/api.php?amount=${req.body.numOfQuestions}`;
 
     if (req.body.category !== undefined) {
-        let response = await fetch("https://opentdb.com/api_category.php");
-        let categories = await response.json();
-        let id = categories.trivia_categories.find(n => n.name === req.body.category).id;
+        const response = await fetch("https://opentdb.com/api_category.php");
+        const categories = await response.json();
+        const id = categories.trivia_categories.find(n => n.name === req.body.category).id;
         url += `&category=${id}`;        
     } if (req.body.type !== undefined) {
         url += `&type=${req.body.type}`;
