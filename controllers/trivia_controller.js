@@ -37,7 +37,6 @@ const generateURL = async (req) => {
 }
 
 const generateForm = async (req, res) => {
-    const {numOfQuestions, category, difficulty, type} = req.body;
     const url = await generateURL(req);
     const response = await fetch(url); 
     const trivia = await response.json();
