@@ -32,15 +32,15 @@ const generateURL = async (req) => {
     } if (req.body.difficulty !== undefined) {
         url += `&difficulty=${req.body.difficulty}`;
     }
-    
+    console.log(url);
     return url;
 }
 
 const generateForm = async (req, res) => {
     const {numOfQuestions, category, difficulty, type} = req.body;
-    const response = await fetch(`https://opentdb.com/api.php?amount=${numOfQuestions}`); 
+    const url = await generateURL(req);
+    const response = await fetch(url); 
     const trivia = await response.json();
-    console.log(generateURL(req));
     
     res.status(200).json(trivia);
 }
