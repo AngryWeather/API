@@ -26,7 +26,6 @@ const generateURL = async (req) => {
         let response = await fetch("https://opentdb.com/api_category.php");
         let categories = await response.json();
         let id = categories.trivia_categories.find(n => n.name === `${req.body.category}`).id;
-        console.log(id);
         url += `&category=${id}`;        
     }
     console.log(url);
