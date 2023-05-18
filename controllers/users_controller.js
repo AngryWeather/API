@@ -14,12 +14,10 @@ const generateAccessToken = email => {
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
-    console.log(token);
 
     if (token == null) return res.sendStatus(401);
 
     jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
-        console.log(error);
         if (error) return res.sendStatus(403);
         
         req.user = user;
@@ -41,8 +39,6 @@ const validateEmail = email => {
 
 const addUser = async (req, res) => {
     try {
-        console.log("response!");
-        console.log(res);
         let userBool = await userExists(req.body.username, req.body.email);
         if (userBool === true) {
             res.send("user exists");
