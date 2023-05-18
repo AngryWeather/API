@@ -32,7 +32,7 @@ const generateURL = async (req) => {
     } if (req.body.difficulty !== undefined) {
         url += `&difficulty=${req.body.difficulty}`;
     }
-    console.log(url);
+
     return url;
 }
 
