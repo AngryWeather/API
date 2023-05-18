@@ -27,8 +27,13 @@ const generateURL = async (req) => {
         let categories = await response.json();
         let id = categories.trivia_categories.find(n => n.name === `${req.body.category}`).id;
         url += `&category=${id}`;        
+    } if (req.body.type !== undefined) {
+        url += `&type=${req.body.type}`;
+    } if (req.body.difficulty !== undefined) {
+        url += `&difficulty=${req.body.difficulty}`;
     }
-    console.log(url);
+    
+    return url;
 }
 
 const generateForm = async (req, res) => {
