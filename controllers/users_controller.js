@@ -11,26 +11,13 @@ const generateAccessToken = email => {
     return jwt.sign(email, process.env.TOKEN_SECRET, {expiresIn: "120s"});
 }
 
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
 
-    if (token == null) return res.sendStatus(401);
-
-    jwt.verify(token, process.env.TOKEN_SECRET, (error, user) => {
-        if (error) return res.sendStatus(403);
-        
-        req.user = user;
-        next();
-    })
-}
-
-const getStudents = (req, res) => {
-    pool.query("SELECT * FROM users", (error, results) => {
-        if (error) throw error;
-        res.status(200).json(results.rows);
-    });
-}
+// const getStudents = (req, res) => {
+//     pool.query("SELECT * FROM users", (error, results) => {
+//         if (error) throw error;
+//         res.status(200).json(results.rows);
+//     });
+// }
 
 const validateEmail = email => {
     const regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
@@ -84,8 +71,6 @@ const userExists = async (username, email) => {
 }
 
 module.exports = {
-    getStudents,
     addUser,
     login,
-    authenticateToken,
 };
