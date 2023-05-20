@@ -5,7 +5,6 @@ const getCategories = async (req, res) => {
 }
 
 const isNumOfQuestionsValid = numOfQuestions => {
-    console.log(numOfQuestions);
     return (numOfQuestions > 0) && (numOfQuestions < 51);
 }
 
