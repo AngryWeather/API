@@ -14,7 +14,7 @@ It also generates trivia based on "https://opentdb.com/api_config.php" api.
 * Express
 
 ## Usage
-### /user route
+### /user
 #### /user/register
 
 request:
@@ -30,3 +30,35 @@ request:
 
 response:
   * jwt token
+
+### /trivia
+#### /trivia/categories
+
+response:
+ * list of all categories fetched from https://opentdb.com/api_category.php
+
+#### /trivia/data
+**requires authorization**
+
+request:
+* numOfQuestions
+* category (optional)
+* difficulty (optional)
+* type (optional)
+
+Example request with required keys:
+```
+{
+	"numOfQuestions": "4"
+}
+```
+
+Example request with optional keys:
+```
+{
+	"numOfQuestions": "4",
+	"category": "General Knowledge",
+	"difficulty": "hard",
+	"type": "multiple"
+}
+```
