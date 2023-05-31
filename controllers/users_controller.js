@@ -28,16 +28,16 @@ const addUser = async (req, res) => {
   try {
     let userBool = await userExists(req.body.username, req.body.email);
     if (userBool === true) {
-      res.send("user exists");
+      res.status(400).json({ error: "user already exists" });
     } else if (!validateEmail(req.body.email)) {
-      res.status(400).json();
+      res.status(400).json({ error: "not a valid email address" });
     } else {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const newUser = await pool.query(
         "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
         [req.body.username, req.body.email, hashedPassword]
       );
-      res.json(newUser.rows);
+      res.status(200).json();
     }
   } catch (error) {
     throw error;
