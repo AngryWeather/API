@@ -37,7 +37,10 @@ const addUser = async (req, res) => {
         "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
         [req.body.username, req.body.email, hashedPassword]
       );
-      res.status(200).json();
+      res.json({
+        username: newUser.rows[0].username,
+        email: newUser.rows[0].email,
+      });
     }
   } catch (error) {
     throw error;
