@@ -26,9 +26,13 @@ const validateEmail = (email) => {
 
 const addUser = async (req, res) => {
   try {
-    let userBool = await userExists(req.body.username, req.body.email);
-    if (userBool === true) {
+    let usernameTaken = await userExists(req.body.username);
+    let emailTaken = await emailExists(req.body.email);
+
+    if (usernameTaken === true) {
       res.status(400).json({ error: "user already exists" });
+    } else if (emailTaken === true) {
+      res.status(400).json({ error: "user with this email already exists" });
     } else if (!validateEmail(req.body.email)) {
       res.status(400).json({ error: "not a valid email address" });
     } else {
@@ -73,11 +77,17 @@ const login = async (req, res) => {
   }
 };
 
-const userExists = async (username, email) => {
-  const len = await pool.query(
-    "SELECT * FROM users WHERE (username = $1) OR (email = $2)",
-    [username, email]
-  );
+const userExists = async (username) => {
+  const len = await pool.query("SELECT * FROM users WHERE (username = $1)", [
+    username,
+  ]);
+  return len.rows.length > 0;
+};
+
+const emailExists = async (email) => {
+  const len = await pool.query("SELECT * FROM users WHERE (email = $1)", [
+    email,
+  ]);
   return len.rows.length > 0;
 };
 
