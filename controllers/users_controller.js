@@ -11,13 +11,6 @@ const generateAccessToken = (email) => {
   return jwt.sign(email, process.env.TOKEN_SECRET, { expiresIn: "120s" });
 };
 
-// const getStudents = (req, res) => {
-//     pool.query("SELECT * FROM users", (error, results) => {
-//         if (error) throw error;
-//         res.status(200).json(results.rows);
-//     });
-// }
-
 const validateEmail = (email) => {
   const regex =
     /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
