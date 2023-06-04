@@ -29,7 +29,9 @@ const addUser = async (req, res) => {
     let usernameTaken = await userExists(req.body.username);
     let emailTaken = await emailExists(req.body.email);
 
-    if (usernameTaken === true) {
+    if (usernameTaken && emailTaken) {
+      res.status(400).json({ error: "user and email already exist" });
+    } else if (usernameTaken === true) {
       res.status(400).json({ error: "user already exists" });
     } else if (emailTaken === true) {
       res.status(400).json({ error: "user with this email already exists" });
