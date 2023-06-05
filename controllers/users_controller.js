@@ -64,9 +64,12 @@ const login = async (req, res) => {
     if (!validPassword)
       return res.status(401).json({ error: "Incorrect password" });
 
-    // return res.status(200).json("Success");
     const token = generateAccessToken({ email });
-    return res.json(token);
+    return res.json({
+      token,
+      username: users.rows[0].username,
+      email: users.rows[0].email,
+    });
   } catch (error) {
     throw error;
   }
