@@ -10,8 +10,13 @@ It also generates trivia based on "https://opentdb.com/api_config.php" api.
 * `npm install` to install dependencies
 * `npm start` to start development server
 
+## Database
+Table name: Users
+Columns: id, username, email, password
+
 ## Technologies
 * Express
+* PostgreSQL
 
 ## Usage
 ### /user
