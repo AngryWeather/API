@@ -2,13 +2,12 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const pool = require("../connection");
-const { json } = require("express");
 
 dotenv.config();
 process.env.TOKEN_SECRET;
 
 const generateAccessToken = (email) => {
-  return jwt.sign(email, process.env.TOKEN_SECRET, { expiresIn: "120s" });
+  return jwt.sign(email, process.env.TOKEN_SECRET, { expiresIn: "900s" });
 };
 
 const validateEmail = (email) => {
