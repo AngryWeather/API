@@ -30,7 +30,10 @@ const setScore = async (req, res) => {
 
   const { score } = req.body;
 
-  if (currentScore.rows[0].score === null || score > currentScore) {
+  if (
+    currentScore.rows[0].score === null ||
+    score > currentScore.rows[0].score
+  ) {
     await pool.query("UPDATE users SET score = $1 WHERE username = $2", [
       score,
       req.body.username,
