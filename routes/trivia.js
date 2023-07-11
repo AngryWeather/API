@@ -1,9 +1,15 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 const categoriesController = require("../controllers/trivia_controller");
 const authentication = require("../utils/token");
 
-router.get('/categories', categoriesController.getCategories);
-router.post('/data', authentication.authenticateToken, categoriesController.postTriviaData, categoriesController.generateForm);
+router.get("/categories", categoriesController.getCategories);
+router.post(
+  "/data",
+  authentication.authenticateToken,
+  categoriesController.postTriviaData,
+  categoriesController.generateForm
+);
+router.patch("/score", categoriesController.setScore);
 
 module.exports = router;

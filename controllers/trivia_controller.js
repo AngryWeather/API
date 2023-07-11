@@ -1,3 +1,5 @@
+const pool = require("../connection");
+
 const getCategories = async (req, res) => {
   const response = await fetch("https://opentdb.com/api_category.php");
   const json = await response.json();
@@ -18,6 +20,24 @@ const postTriviaData = (req, res, next) => {
   }
 
   next();
+};
+
+const setScore = async (req, res) => {
+  const currentScore = await pool.query(
+    "SELECT score FROM users WHERE username = $1",
+    [req.body.username]
+  );
+
+  const { score } = req.body;
+
+  if (currentScore.rows[0].score === null || score > currentScore) {
+    await pool.query("UPDATE users SET score = $1 WHERE username = $2", [
+      score,
+      req.body.username,
+    ]);
+  }
+
+  res.status(200).json();
 };
 
 const generateURL = async (req) => {
@@ -53,4 +73,5 @@ module.exports = {
   getCategories,
   postTriviaData,
   generateForm,
+  setScore,
 };
